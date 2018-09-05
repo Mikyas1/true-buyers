@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+name = "pypi"
+verify_ssl = true
+
+[packages]
+pymongo = "*"
+pytelegrambotapi = "*"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
