@@ -679,8 +679,5 @@ def give_choice_for_purchase_from(call):
 
 
 print("{} bot running....".format(user.first_name))
-
-if __name__ == '__main__':
-    bot.polling(none_stop=True)
-
+bot.polling()
 print("{} bot stoped!!!!".format(user.first_name))
