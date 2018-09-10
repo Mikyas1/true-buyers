@@ -110,7 +110,7 @@ def send_welcome(message):
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 facebook", callback_data="facebook"))
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 telegram", callback_data="telegram"))
 	    bot.reply_to(message, "Hello {}. \U0001F600\nWhere did you buy your recent purchase?\n\n\U0001F449 From:".format(message.from_user.first_name), reply_markup=keyboard)
-	except:
+	except Exception as e:
 		print(e)
 
 
@@ -431,7 +431,7 @@ def accept_store_gps(message):
 # 
 # CALLBACK QUERY HANDLERS FOR NEW CONDITION 
 @bot.callback_query_handler(func=lambda call: call.data == 'new')
-def give_choice_for_purchase_from(call):
+def accept_purchase_condition(call):
 	try:
 		global CONDITION_GIVEN
 		CONDITION_GIVEN = 'new'
@@ -449,7 +449,7 @@ def give_choice_for_purchase_from(call):
 # 
 # CALLBACK QUERY HANDLERS FOR USED CONDITION 
 @bot.callback_query_handler(func=lambda call: call.data == 'used')
-def give_choice_for_purchase_from(call):
+def accept_purchase_condition(call):
 	try:
 		global CONDITION_GIVEN
 		CONDITION_GIVEN = 'used'
@@ -467,12 +467,18 @@ def give_choice_for_purchase_from(call):
 # 
 # CALLBACK QUERY HANDLERS FOR YES GENUINE
 @bot.callback_query_handler(func=lambda call: call.data == 'yes')
-def give_choice_for_purchase_from(call):
+def accept_purchase_genuine(call):
 	try:
 		global GENUINE_GIVEN
 		GENUINE_GIVEN = 'yes'
+		keyboard = types.InlineKeyboardMarkup()
+		keyboard.add(types.InlineKeyboardButton("\U00002B50", callback_data="one_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50", callback_data="two_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50", callback_data="three_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="four_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
 		bot.answer_callback_query(call.id, text='\U00002714 genuine: yes')
-		bot.send_message(call.from_user.id, '\U00002611 genuine: yes\n\n\U0001F449 How many stars from 1 to 5 would you give your purchase?')
+		bot.send_message(call.from_user.id, '\U00002611 genuine: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
 	except Exception as e:
 		print(e)
 
@@ -481,15 +487,82 @@ def give_choice_for_purchase_from(call):
 # 
 # CALLBACK QUERY HANDLERS FOR NO GENUINE
 @bot.callback_query_handler(func=lambda call: call.data == 'no')
-def give_choice_for_purchase_from(call):
+def accept_purchase_genuine(call):
 	try:
 		global GENUINE_GIVEN
 		GENUINE_GIVEN = 'no'
+		keyboard = types.InlineKeyboardMarkup()
+		keyboard.add(types.InlineKeyboardButton("\U00002B50", callback_data="one_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50", callback_data="two_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50", callback_data="'three'_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="four_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
 		bot.answer_callback_query(call.id, text='\U00002714 genuine: no')
-		bot.send_message(call.from_user.id, '\U00002611 genuine: no\n\n\U0001F449 How many stars from 1 to 5 would you give your purchase?')
+		bot.send_message(call.from_user.id, '\U00002611 genuine: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
 	except Exception as e:
 		print(e)
 
+
+
+
+
+# 
+# CALLBACK QUERY HANDLERS FOR NO RATING
+@bot.callback_query_handler(func=lambda call: call.data == 'one_rating')
+def accept_purchase_genuine(call):
+	try:
+		global RATING_GIVEN
+		RATING_GIVEN = 1
+		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50')
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
+	except Exception as e:
+		print(e)
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data == 'two_rating')
+def accept_purchase_genuine(call):
+	try:
+		global RATING_GIVEN
+		RATING_GIVEN = 2
+		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50')
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
+	except Exception as e:
+		print(e)
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data == 'three_rating')
+def accept_purchase_genuine(call):
+	try:
+		global RATING_GIVEN
+		RATING_GIVEN = 3
+		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50')
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
+	except Exception as e:
+		print(e)
+
+
+@bot.callback_query_handler(func=lambda call: call.data == 'four_rating')
+def accept_purchase_genuine(call):
+	try:
+		global RATING_GIVEN
+		RATING_GIVEN = 4
+		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50\U00002B50')
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
+	except Exception as e:
+		print(e)
+
+
+@bot.callback_query_handler(func=lambda call: call.data == 'five_rating')
+def accept_purchase_genuine(call):
+	try:
+		global RATING_GIVEN
+		RATING_GIVEN = 5
+		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50\U00002B50\U00002B50')
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
+	except Exception as e:
+		print(e)
 
 
 
@@ -500,17 +573,16 @@ def give_choice_for_purchase_from(call):
 					)
 def accept_rating(message):
 	try:
-		rating = int(message.text)
-		if rating > 6 or rating < 0:
-			bot.reply_to(message, '\U000026A0 Rating must between 1 to 5\n\n\U0001F449 How many stars would you give your purchase?')
-		else:
-			global RATING_GIVEN
-			RATING_GIVEN = rating
-			bot.reply_to(message, '\U00002611 Rating: ' + str(RATING_GIVEN) + '\n\n\U0000270D Write your review of your \'{}\''.format(NAME_GIVEN))
-	except:
-		bot.reply_to(message, '\U000026A0 Rating must be a number and between 1 to 5.\n\n\U0001F449 How many stars would you give your purchase?')
+		keyboard = types.InlineKeyboardMarkup()
+		keyboard.add(types.InlineKeyboardButton("\U00002B50", callback_data="one_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50", callback_data="two_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50", callback_data="'three'_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="four_rating"))
+		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
+		bot.reply_to(message, '\U000026A0 please choose a rating from the choices bellow.', reply_markup=keyboard)
+	except Exception as e:
+		print(e)
 		
-
 
 
 # 
@@ -543,7 +615,7 @@ def give_choice_for_purchase_from(call):
 		keyboard.add(types.InlineKeyboardButton("\U0001F44D share", callback_data="share"))
 		keyboard.add(types.InlineKeyboardButton("\U000026D4 cancel", callback_data="cancel"))
 		bot.answer_callback_query(call.id, text='\U00002714 recommend: yes')
-		bot.send_message(call.from_user.id, '\U00002611 recommend: yes', reply_markup=keyboard)
+		bot.send_message(call.from_user.id, '\U00002611 recommend: yes\n\U0001F449 share?', reply_markup=keyboard)
 	except Exception as e:
 		print(e)
 
@@ -560,7 +632,7 @@ def give_choice_for_purchase_from(call):
 		keyboard.add(types.InlineKeyboardButton("\U0001F44D share", callback_data="share"))
 		keyboard.add(types.InlineKeyboardButton("\U000026D4 cancel", callback_data="cancel"))
 		bot.answer_callback_query(call.id, text='\U00002714 recommend: no')
-		bot.send_message(call.from_user.id, '\U00002611 recommend: no', reply_markup=keyboard)
+		bot.send_message(call.from_user.id, '\U00002611 recommend: no\n\U0001F449 share?', reply_markup=keyboard)
 	except Exception as e:
 		print(e)
 
@@ -616,7 +688,7 @@ def give_choice_for_purchase_from(call):
 		
 		if PURCHASE_FROM == 'store':
 			if STORE_NAME_GIVEN == "/$&pass":
-				store_name_given = "not given"
+				store_name_given = "store name \"not given\""
 			else:
 				store_name_given = STORE_NAME_GIVEN
 			text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  genuine\U00002122   {}  \n\U0001F3EA  {} \n\U0001F4CD  {}  ".format(NAME_GIVEN,
@@ -638,7 +710,7 @@ def give_choice_for_purchase_from(call):
 																																					 store_name_given,
 																																					)		
 		purchase.save()
-		bot.send_message(call.from_user.id, '\U0001F600 Thanks for your time\nproduct name: \'' + NAME_GIVEN + '\' is shared. \n\nwe are sure many of us will learn from it.')
+		bot.send_message(call.from_user.id, '\U0001F600 Thanks for your time\nproduct name: \'' + NAME_GIVEN + '\' is shared. \n\n\U0001F44D we are sure many of us will learn from it.')
 		bot.answer_callback_query(call.id, text='\U00002714 exprience: shared!')
 
 		product_pic = open('img/product/' + PICTURE_GIVEN, 'rb')
@@ -653,12 +725,15 @@ def give_choice_for_purchase_from(call):
 		for rating in range(white_star):
 			stars += '\U00002606'
 
-		reco = '\U00002705' if recommend else '\U0000274C'
-		bot.send_message('@aradabuyer', 'REVIEW\n'+ stars + '\n' + REVIEW_GIVEN + '\nRecommend to a friend  ' + reco)
+		reco = '\U00002705' if recommend else '\U0000274C'     
+		bot.send_message('@aradabuyer', 'REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + call.from_user.first_name + ':\n' + REVIEW_GIVEN + '\n--------------------------------------------------------------\n\nRecommend to a friend  ' + reco)
+
 
 		if not STORE_GPS_GIVEN['no_location']:
 			bot.send_location('@aradabuyer', STORE_GPS_GIVEN['latitude'], STORE_GPS_GIVEN['longitude'])
-	   
+		
+		default()
+
 	except Exception as e:
 		print(e)
 
