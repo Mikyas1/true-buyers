@@ -6,6 +6,7 @@ from telebot import types
 import PIL
 from PIL import Image
 
+import time
 
 # 
 # TOKEN
@@ -917,9 +918,13 @@ def share_review_to_public(call):
 
 print("{} bot running....".format(user.first_name))
 
+while True:
+	try:
+		if __name__ == '__main__':
+			bot.polling(none_stop=True)
+	except Exception:
+		time.sleep(15)
 
-if __name__ == '__main__':
-    bot.polling(none_stop=True)
 
 
 print("{} bot stoped!!!!".format(user.first_name))
