@@ -19,6 +19,7 @@ user = bot.get_me()
 
 # 
 # GLOBAL VARIABLES
+USER = {}
 PURCHASE_FROM = ''
 NOT_PURCHASER_FROM = True
 NAME_GIVEN = ''
@@ -110,9 +111,11 @@ def send_welcome(message):
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 facebook", callback_data="facebook"))
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 telegram", callback_data="telegram"))
 	    bot.reply_to(message, "Hello {}. \U0001F600\nWhere did you buy your recent purchase?\n\n\U0001F449 From:".format(message.from_user.first_name), reply_markup=keyboard)
+	    global USER 
+	    USER[str(message.from_user.id)] = {}
+	    print(USER)
 	except Exception as e:
 		print(e)
-
 
 
 
@@ -134,17 +137,27 @@ def cancel_message(message):
 # CALLBACK QUERY HANDLERS FOR PURCHASE_FROM 
 @bot.callback_query_handler(func=lambda call: call.data == 'store')
 def give_choice_for_purchase_from(call):
+    global USER
     try:
     	if not call.from_user.is_bot:
-	        bot.answer_callback_query(call.id, text='\U00002714 from: store')
-	        default()
-	        global PURCHASE_FROM
-	        PURCHASE_FROM = 'store'
-	        global NOT_PURCHASER_FROM
-	        NOT_PURCHASER_FROM = False
-	        bot.send_message(call.from_user.id, "\U00002611 from: store.\n\n\U0000270D send us the name of your purchase?")
+    		bot.answer_callback_query(call.id, text='\U00002714 from: store')
+    		default()   
+    		global PURCHASE_FROM
+    		PURCHASE_FROM = 'store'
+    		global NOT_PURCHASER_FROM
+    		NOT_PURCHASER_FROM = False
+    		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
+    		USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'store'
+    		print(USER)
+    		bot.send_message(call.from_user.id, "\U00002611 from: store.\n\n\U0000270D send us the name of your purchase?")
     except Exception as e:
-        print(e)
+        USER[str(call.from_user.id)] = {}
+        USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
+        USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'store'
+        if 'NAME' in USER[str(call.from_user.id)]:
+	        print(USER)
+		else:
+	    	print('NAME DOESNT EXIST')
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'facebook')
@@ -157,6 +170,10 @@ def give_choice_for_purchase_from(call):
 	        PURCHASE_FROM = 'facebook'
 	        global NOT_PURCHASER_FROM
 	        NOT_PURCHASER_FROM = False
+	        global USER
+	        USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
+	        USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'facebook'
+	        print(USER)
 	        bot.send_message(call.from_user.id, "\U00002611 from: facebook.\n\n\U0000270D send us the name of your purchase?")
     except Exception as e:
         print(e)
@@ -172,6 +189,10 @@ def give_choice_for_purchase_from(call):
 	        PURCHASE_FROM = 'telegram'
 	        global NOT_PURCHASER_FROM
 	        NOT_PURCHASER_FROM = False
+	        global USER
+	        USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
+	        USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'facebook'
+	        print(USER)
 	        bot.send_message(call.from_user.id, "\U00002611 from: telegram.\n\n\U0000270D send us the name of your purchase?")
     except Exception as e:
         print(e)
@@ -739,13 +760,13 @@ def give_choice_for_purchase_from(call):
 
 # 
 # CANCLE
-@bot.callback_query_handler(func=lambda call: call.data == 'share')
+@bot.callback_query_handler(func=lambda call: call.data == 'cancel')
 def give_choice_for_purchase_from(call):
 	try:
 		# 
 		default()
 		bot.answer_callback_query(call.id, text='\U00002714 progress: canceled!')
-		bot.send_message(call.from_user.id, 'All the data you give is deleted ' + message.from_user.first_name + '.\nto startover /start.')
+		bot.send_message(call.from_user.id, 'All the data you give is deleted ' + call.from_user.first_name + '.\nto startover /start.')
 	except Exception as e:
 		print(e)
 

@@ -3,6 +3,8 @@ from db import fields
 
 
 class Purchases(Model):
+	user_id = fields.CharField()
+	user_name = fields.CharField()
 	purchase_from = fields.CharField()
 	name = fields.CharField()
 	picture = fields.CharField()
@@ -17,4 +19,5 @@ class Purchases(Model):
 	gps = fields.BooleanField()
 	latitude = fields.FloatField()
 	longitude = fields.FloatField()
+	shared = fields.BooleanField()
 	# date = fields.DateField()

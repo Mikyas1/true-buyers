@@ -214,3 +214,22 @@ CHAT
 					 					   'data': 'store', 
 					 					   'inline_message_id': None
 					 					}
+
+
+USER 
+{'326183269': 
+	{'NOT_PURCHASER_FROM': False, 
+	 'PURCHASE_FROM': 'store', 
+	 'NAME_GIVEN': 'Iphone', 
+	 'PICTURE_GIVEN': 'Iphone-326183269-1536684918.jpg', 
+	 'PRICE_GIVEN': 45700.0, 
+	 'STORE_NAME_GIVEN': '/$&pass', 
+	 'STORE_LOCATION_GIVEN': 'Merkato yerga-hayle 2nd floor', 
+	 'STORE_GPS_GIVEN': {'no_location': True}, 
+	 'CONDITION_GIVEN': 'new', 
+	 'GENUINE_GIVEN': 'yes', 
+	 'RATING_GIVEN': 4, 
+	 'REVIEW_GIVEN': "Very nice I couldn't be any happier thanks for this awesome product👌👌 every time you have the internet working with deadline for some it just goes to the server's db maybe challenge of Ethiopia hotel and we should do something man", 
+	 'RECOMMEND_GIVEN': 'yes'
+	}
+}
