@@ -1,15 +1,15 @@
-# import telebot
-# from telebot import types
+import telebot
+from telebot import types
 
 
-# TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI'
-# #username = os.environ['BOT_USERNAME']
-# bot = telebot.TeleBot(TOKEN)
-# user = bot.get_me()
+TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI'
+#username = os.environ['BOT_USERNAME']
+bot = telebot.TeleBot(TOKEN)
+user = bot.get_me()
 
 # text = "\U00002B06 REVIEW\n\U00002B50\U00002B50\U00002B50\U00002606\U00002606\n________________________________________\n\nMike:\njjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj\U0000274C\U0000274C\U0000274C\U0000274C"
-# # print(len(text))
-# bot.send_message('@aradabuyer', text)#\U000026C4
+# # # print(len(text))
+# bot.send_message('https://t.me/joinchat/AAAAAEjUTBtpeh_EsT9D_A', text)#\U000026C4
 # bot.send_location('@aradabuyer', '38.752402', '38.752402', 'location')
 
 # @bot.message_handler(content_types=['text'])
@@ -54,18 +54,18 @@
 # img.save('test/resized_photo.jpg')
 
 # search book
-# @bot.message_handler(func=lambda msg: True)
-# def search_book(message):
-#     text = 'test123'
-#     keyboard = types.InlineKeyboardMarkup()
-#     keyboard.add(types.InlineKeyboardButton("See Bookstores", callback_data="vendor"))
-#     markup = types.ReplyKeyboardMarkup(row_width=2)
-#     itembtn1 = types.KeyboardButton('a')
-#     itembtn2 = types.KeyboardButton('v')
-#     itembtn3 = types.KeyboardButton('d')
-#     markup.add(itembtn1, itembtn2, itembtn3)
-#     bot.reply_to(message, "Choose one letter:", reply_markup=markup)
-#     bot.reply_to(message, text, reply_markup=keyboard)
+@bot.message_handler(func=lambda msg: True)
+def search_book(message):
+    text = 'test123'
+    keyboard = types.InlineKeyboardMarkup()
+    keyboard.add(types.InlineKeyboardButton("See Bookstores", callback_data="vendor"))
+    markup = types.ReplyKeyboardMarkup(row_width=2)
+    itembtn1 = types.KeyboardButton('/start')
+    itembtn2 = types.KeyboardButton('v')
+    itembtn3 = types.KeyboardButton('d')
+    markup.add(itembtn1, itembtn2, itembtn3)
+    bot.reply_to(message, "Choose one letter:", reply_markup=markup)
+    bot.reply_to(message, text, reply_markup=keyboard)
 
 
 
@@ -109,9 +109,9 @@
 
 
 
-# print("{} bot running....".format(user.first_name))
-# bot.polling()
-# print("{} bot stoped!!!!".format(user.first_name))
+print("{} bot running....".format(user.first_name))
+bot.polling()
+print("{} bot stoped!!!!".format(user.first_name))
 
 
 # USER = {}

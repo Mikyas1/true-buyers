@@ -20,4 +20,6 @@ class Purchases(Model):
 	latitude = fields.FloatField()
 	longitude = fields.FloatField()
 	shared = fields.BooleanField()
+	supercategory = fields.CharField()
+	category = fields.CharField()
 	# date = fields.DateField()

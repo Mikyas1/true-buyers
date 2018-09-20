@@ -10,7 +10,8 @@ import time
 
 # 
 # TOKEN
-TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI'
+# TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI' # Arada Buyer Bot
+TOKEN = '690016560:AAHu7wzIIOsUKOGxhmM7a_3wZFkfuNQPrVs' # Shemach Bot
 #username = os.environ['BOT_USERNAME']
 # 
 bot = telebot.TeleBot(TOKEN)
@@ -21,6 +22,8 @@ user = bot.get_me()
 # 
 # GLOBAL VARIABLES
 USER = {}
+ADMIN = {}
+ADMIN_LIST = ('326183269',)
 
 
 
@@ -54,23 +57,121 @@ def price_str(price):
 # HELP MESSAGE HANDLER
 @bot.message_handler(commands=['help'])
 def help(message):
-	pass
+	try:
+		markup = types.ReplyKeyboardRemove(selective=False)
+		bot.reply_to(message, """
+Hello {}. \U0001F600\n
+This is help or user guide. 
+
+\U0001F449 send /start to start chating with the bot
+\U0001F449 send /start_over to delete all info you given and start over
+\U0001F449 send /help to read this help message 
+\U0001F449 send /cancle to delete all data you given us
+\U0001F449 send /menu to get options to start, start_over, cancle.
+
+This bot is extremely easy to use, 
+just answer the questions it asks 
+and you will be done before you know it.
+/start
+			""".format(message.from_user.first_name), reply_markup=markup)
+	except Exception as e:
+		print(e)
 
 
 
 # 
 # WELCOME MESSAGE HANDLER
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start', 'start_over'])
 def send_welcome(message):
 	try:
 	    keyboard = types.InlineKeyboardMarkup()
 	    keyboard.add(types.InlineKeyboardButton("\U0001F40B share purchase", callback_data="share_purchase"))
 	    keyboard.add(types.InlineKeyboardButton("\U0001F42C instruction", callback_data="instruction"))
 	    keyboard.add(types.InlineKeyboardButton("\U0001F988 help", callback_data="help"))
-	    bot.reply_to(message, "Hello {}. \U0001F600\nShare purchase exprience, get help or read instructions \n\n\U0001F449 Start:".format(message.from_user.first_name), reply_markup=keyboard)
+	    bot.reply_to(message, "Hello {}. \U0001F600\nShare purchase exprience, get help or read instructions. \n\n\U0001F449 Start:".format(message.from_user.first_name), reply_markup=keyboard)
 	except Exception as e:
 		print(e)
 
+
+# HELP CALLBACK HANDLER
+@bot.callback_query_handler(func=lambda call: call.data == 'help')
+def give_choice_for_purchase_from(call):
+	try:
+	    bot.answer_callback_query(call.id, text='\U00002714 help')
+	    bot.send_message(call.from_user.id, """
+Hello {}. \U0001F600\n
+This is help or user guide for Shemach Bot. 
+
+\U0001F449 send /start to start chating with the bot
+\U0001F449 send /start_over to delete all info you given and start over
+\U0001F449 send /help to read this help message 
+\U0001F449 send /cancle to delete all data you given us
+\U0001F449 send /menu to get options to start, start_over, cancle.
+
+This bot is extremely easy to use, 
+just answer the questions it asks 
+and you will be done before you know it.
+/start
+			""".format(call.from_user.first_name))
+	except Exception as e:
+		print(e)
+
+
+
+
+# HELP CALLBACK HANDLER
+@bot.callback_query_handler(func=lambda call: call.data == 'instruction')
+def give_choice_for_purchase_from(call):
+	try:
+	    bot.answer_callback_query(call.id, text='\U00002714 instruction')
+	    bot.send_message(call.from_user.id, """
+Hello {}. \U0001F600\n
+This is instructions on how to use Shemach Bot and share review and rating of your recent purchase.
+
+\U0001F449 send -> /start to start and choose "share purchase" to start sharing from the choices 
+        -> share purchase
+        -> instruction
+        -> help
+
+\U0001F449 then answer to the questions, the bot asks, about your purchase
+		EX:
+		-> where you bought your purchase
+		-> price of your purchase
+        -> the name of your purchase
+        -> picture of purchase
+        -> location of store
+        -> review and rating
+        -> and other
+
+\U000026A0 picture
+		-> send us only one picture of your purchase
+
+\U0001F449 location
+		-> you can choose to not send us location of the store
+
+This bot is extremely easy to use, 
+just answer the questions it asks 
+and you will be done before you know it.
+/start
+			""".format(call.from_user.first_name))
+	except Exception as e:
+		print(e)
+
+
+# 
+# SHOW MENU
+@bot.message_handler(commands=['menu'])
+def send_welcome(message):
+	try:
+	    keyboard = types.InlineKeyboardMarkup()
+	    markup = types.ReplyKeyboardMarkup(row_width=2)
+	    itembtn1 = types.KeyboardButton('/start_over')
+	    itembtn2 = types.KeyboardButton('/cancel')
+	    itembtn3 = types.KeyboardButton('/help')
+	    markup.add(itembtn1, itembtn2, itembtn3)
+	    bot.send_message(message.from_user.id, "\U0001F449 Choose a menu option: \n\n\U0001F449 You can change back to your keyboard by clicking \U00002328 on your keyboard. and continue your progress.", reply_markup=markup)
+	except Exception as e:
+		print(e)
 
 
 
@@ -136,7 +237,8 @@ def cancel_message(message):
 	try:
 		# Set global variables to default
 	    USER[str(message.from_user.id)] = {}
-	    bot.reply_to(message, 'All the data you give is deleted ' + message.from_user.first_name + '.\nto startover /start.')
+	    markup = types.ReplyKeyboardRemove(selective=False)
+	    bot.reply_to(message, 'All the data you give is deleted ' + message.from_user.first_name + '.\nto startover /start.', reply_markup=markup)
 	except Exception as e:
 		print(e)
 
@@ -155,7 +257,8 @@ def give_choice_for_purchase_from(call):
     		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
     		USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'store'
     		# print(USER)
-    		bot.send_message(call.from_user.id, "\U00002611 from: store.\n\n\U0000270D send us the name of your purchase?")
+    		markup = types.ReplyKeyboardRemove(selective=False)
+    		bot.send_message(call.from_user.id, "\U00002611 from: store.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
     except Exception as e:
         USER[str(call.from_user.id)] = {}
         USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
@@ -173,7 +276,8 @@ def give_choice_for_purchase_from(call):
 			USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
 			USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'facebook'
 			# print(USER)
-			bot.send_message(call.from_user.id, "\U00002611 from: facebook.\n\n\U0000270D send us the name of your purchase?")
+			markup = types.ReplyKeyboardRemove(selective=False)
+			bot.send_message(call.from_user.id, "\U00002611 from: facebook.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
 	except Exception as e:	
 		USER[str(call.from_user.id)] = {}
 		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
@@ -189,7 +293,8 @@ def give_choice_for_purchase_from(call):
     		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
     		USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'telegram'
     		# print(USER)
-    		bot.send_message(call.from_user.id, "\U00002611 from: telegram.\n\n\U0000270D send us the name of your purchase?")
+    		markup = types.ReplyKeyboardRemove(selective=False)
+    		bot.send_message(call.from_user.id, "\U00002611 from: telegram.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
     except Exception as e:
     	USER[str(call.from_user.id)] = {}
     	USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
@@ -408,7 +513,7 @@ def accept_store_name(message):
 				keyboard.add(types.InlineKeyboardButton("\U0001F44C new", callback_data="new"))
 				keyboard.add(types.InlineKeyboardButton("\U0000270C used", callback_data="used"))
 				bot.reply_to(message, '\U00002611 telegram channel: ' + USER[str(message.from_user.id)]['STORE_NAME_GIVEN'] + '\n\n\U0001F449 What was the condition of your purchase?', reply_markup=keyboard)
-				print(e)
+				# print(e)
 		# print(USER)
 	except Exception as e:
 		print(e)	
@@ -749,6 +854,8 @@ def give_choice_for_purchase_from(call):
 						  latitude=0.0,
 						  longitude=0.0,
 						  shared=False,
+						  supercategory='',
+						  category='',
 						)
 		else:
 			purchase.create(user_id=str(call.from_user.id),
@@ -768,6 +875,8 @@ def give_choice_for_purchase_from(call):
 							  latitude=USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['latitude'],
 							  longitude=USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['longitude'],
 							  shared=False,
+							  supercategory='',
+							  category='',
 							)
 		genu= "\U00002705" if genuine else "\U0000274C"
 		
@@ -799,7 +908,7 @@ def give_choice_for_purchase_from(call):
 		bot.answer_callback_query(call.id, text='\U00002714 exprience: shared!')
 
 		product_pic = open('../img/product/' + USER[str(call.from_user.id)]['PICTURE_GIVEN'], 'rb')
-		bot.send_photo('@aradabuyer', product_pic, text)
+		bot.send_photo('@shemachetadmin', product_pic, text)
 		product_pic.close()
 
 		stars = '' 
@@ -811,16 +920,16 @@ def give_choice_for_purchase_from(call):
 			stars += '\U00002606'
 
 		reco = '\U00002705' if recommend else '\U0000274C'     
-		bot.send_message('@aradabuyer', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + call.from_user.first_name + ':\n' + USER[str(call.from_user.id)]['REVIEW_GIVEN'] + '\n--------------------------------------------------------------\n\nRecommend to a friend  ' + reco)
+		bot.send_message('@shemachetadmin', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + call.from_user.first_name + ':\n' + USER[str(call.from_user.id)]['REVIEW_GIVEN'] + '\n--------------------------------------------------------------\n\nRecommend to a friend  ' + reco)
 
 
 		if not USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['no_location']:
-			bot.send_location('@aradabuyer', USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['latitude'], USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['longitude'])
+			bot.send_location('@shemachetadmin', USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['latitude'], USER[str(call.from_user.id)]['STORE_GPS_GIVEN']['longitude'])
 		
 		keyboard = types.InlineKeyboardMarkup()
 		keyboard.add(types.InlineKeyboardButton("\U0001F44D share", callback_data='verify*' + USER[str(call.from_user.id)]['PICTURE_GIVEN']))
 		
-		bot.send_message('@aradabuyer', 'share "' + USER[str(call.from_user.id)]['NAME_GIVEN'] + '" by "' + call.from_user.first_name + '"?' , reply_markup=keyboard)
+		bot.send_message('@shemachetadmin', 'share "' + USER[str(call.from_user.id)]['NAME_GIVEN'] + '" by "' + call.from_user.first_name + '"?' , reply_markup=keyboard)
 		USER[str(call.from_user.id)] = {}
 
 	except Exception as e:
@@ -851,60 +960,74 @@ def share_review_to_public(call):
 		
 		if not purchase['shared']:
 
-			genu= "\U00002705" if purchase['genuine'] else "\U0000274C"
+			# genu= "\U00002705" if purchase['genuine'] else "\U0000274C"
 			
-			if purchase['purchase_from'] == 'store':
-				if purchase['store_name'] == "/$&pass":
-					store_name_given = "store name \"not given\""
-				else:
-					store_name_given = purchase['store_name']
-				text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F3EA  {} \n\U0001F4CD  {}  ".format(purchase['name'],
-																																											 price_str(purchase['price']),
-																																											 purchase['condition'],
-																																											 genu,
-																																											 store_name_given,
-																																											 purchase['store_location'],
-																																											)		
+			# if purchase['purchase_from'] == 'store':
+			# 	if purchase['store_name'] == "/$&pass":
+			# 		store_name_given = "store name \"not given\""
+			# 	else:
+			# 		store_name_given = purchase['store_name']
+			# 	text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F3EA  {} \n\U0001F4CD  {}  ".format(purchase['name'],
+			# 																																								 price_str(purchase['price']),
+			# 																																								 purchase['condition'],
+			# 																																								 genu,
+			# 																																								 store_name_given,
+			# 																																								 purchase['store_location'],
+			# 																																								)		
+			# else:
+			# 	if purchase['purchase_from'] == "facebook":
+			# 		store_name_given = '"' + purchase['store_name'] + "\" from facebook-group"
+			# 	elif purchase['purchase_from'] == "telegram":
+			# 		store_name_given = '"' + purchase['store_name'] + "\" from telegram-group"
+			# 	text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F4F2  {} ".format(purchase['name'],
+			# 																																		 price_str(purchase['price']),
+			# 																																			 purchase['condition'],
+			# 																																			 genu,
+			# 																																			 store_name_given,
+			# 																																			)		
+			# bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
+			
+			# product_pic = open('../img/product/' + purchase['picture'], 'rb')
+			# bot.send_photo('@shemachet', product_pic, text)
+			# product_pic.close()
+
+			# stars = '' 
+			# white_star = 5 - purchase['rating']
+			# for rating in range(purchase['rating']):
+			# 	stars += '\U00002B50'
+
+			# for rating in range(white_star):
+			# 	stars += '\U00002606'
+
+			# reco = '\U00002705' if purchase['recommend'] else '\U0000274C'     
+			# bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco)
+
+
+			# if purchase['gps']:
+			# 	bot.send_location('@shemachet', purchase['latitude'], purchase['longitude'])
+
+			# purchases.objects.update_one({
+			# 								'picture': purchase['picture']
+			# 							},{
+			# 								'$set': {
+			# 								'shared': True
+			# 								}
+			# 							}, upsert=False)
+
+			if str(call.from_user.id) in ADMIN_LIST:
+				ADMIN[str(call.from_user.id)] = {}
+				ADMIN[str(call.from_user.id)]['product_id'] = call.data.split('*')[1]
+				# print(ADMIN) 
+				keyboard = types.InlineKeyboardMarkup()
+				keyboard.add(types.InlineKeyboardButton("Electronics", callback_data="SC_Electronics*" + call.data.split('*')[1]))
+				keyboard.add(types.InlineKeyboardButton("Clothing", callback_data="SC_Clothing*" + call.data.split('*')[1]))
+				keyboard.add(types.InlineKeyboardButton("Other", callback_data="SC_Other*" + call.data.split('*')[1]))
+				bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
+				bot.send_message('@shemachetadmin', 'Choose Supercategory for \'{}\''.format(purchase['name']), reply_markup=keyboard)
+
 			else:
-				if purchase['purchase_from'] == "facebook":
-					store_name_given = '"' + purchase['store_name'] + "\" from facebook-group"
-				elif purchase['purchase_from'] == "telegram":
-					store_name_given = '"' + purchase['store_name'] + "\" from telegram-group"
-				text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F4F2  {} ".format(purchase['name'],
-																																					 price_str(purchase['price']),
-																																						 purchase['condition'],
-																																						 genu,
-																																						 store_name_given,
-																																						)		
-			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))				
 			
-			product_pic = open('../img/product/' + purchase['picture'], 'rb')
-			bot.send_photo('@aradabuyers', product_pic, text)
-			product_pic.close()
-
-			stars = '' 
-			white_star = 5 - purchase['rating']
-			for rating in range(purchase['rating']):
-				stars += '\U00002B50'
-
-			for rating in range(white_star):
-				stars += '\U00002606'
-
-			reco = '\U00002705' if purchase['recommend'] else '\U0000274C'     
-			bot.send_message('@aradabuyers', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\n\nRecommend to a friend  ' + reco)
-
-
-			if purchase['gps']:
-				bot.send_location('@aradabuyers', purchase['latitude'], purchase['longitude'])
-
-			purchases.objects.update_one({
-											'picture': purchase['picture']
-										},{
-											'$set': {
-											'shared': True
-											}
-										}, upsert=False)
-
 		
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
@@ -912,6 +1035,385 @@ def share_review_to_public(call):
 		print(e)
 
 
+# 
+#Super Category
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'SC_Electronics')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['supercategory'] = 'Electronics'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Electronics')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'supercategory': 'Electronics'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("Smartphone", callback_data="C_Smartphone*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Laptop", callback_data="C_Laptop*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Other", callback_data="C_Other*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'Choose Category for \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'SC_Clothing')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['supercategory'] = 'Clothing'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Clothing')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'supercategory': 'Clothing'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("Men", callback_data="C_Men*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Women", callback_data="C_Women*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Other", callback_data="C_Other*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'Choose Category for \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'SC_Other')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['supercategory'] = 'Other'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Other')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'supercategory': 'Other'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("Other", callback_data="C_Other*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'Choose Category for \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 
+# Category
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Smartphone')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Smartphone'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Smartphone')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Smartphone'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Laptop')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Laptop'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Laptop')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Laptop'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Men')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Men'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Men')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Men'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Women')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Women'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Women')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Women'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Other')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Other'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Other')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Other'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+
+
+# Done Sharing
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'D_Done')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+
+				genu= "\U00002705" if purchase['genuine'] else "\U0000274C"
+				
+				if purchase['purchase_from'] == 'store':
+					if purchase['store_name'] == "/$&pass":
+						store_name_given = "store name \"not given\""
+					else:
+						store_name_given = purchase['store_name']
+					text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F3EA  {} \n\U0001F4CD  {}  ".format(purchase['name'],
+																																												 price_str(purchase['price']),
+																																												 purchase['condition'],
+																																												 genu,
+																																												 store_name_given,
+																																												 purchase['store_location'],
+																																												)		
+				else:
+					if purchase['purchase_from'] == "facebook":
+						store_name_given = 'facebook-> "' + purchase['store_name'] + "\" group"
+					elif purchase['purchase_from'] == "telegram":
+						store_name_given = 'telegram-> "' + purchase['store_name'] + "\" channel"
+					text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F4F2  {} ".format(purchase['name'],
+																																						 price_str(purchase['price']),
+																																							 purchase['condition'],
+																																							 genu,
+																																							 store_name_given,
+																																							)		
+				bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
+				
+				product_pic = open('../img/product/' + purchase['picture'], 'rb')
+				bot.send_photo('@shemachet', product_pic, text)
+				product_pic.close()
+
+				stars = '' 
+				white_star = 5 - purchase['rating']
+				for rating in range(purchase['rating']):
+					stars += '\U00002B50'
+
+				for rating in range(white_star):
+					stars += '\U00002606'
+
+				reco = '\U00002705' if purchase['recommend'] else '\U0000274C'     
+				bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + ' #' + purchase['category'])
+
+
+				if purchase['gps']:
+					bot.send_location('@shemachet', purchase['latitude'], purchase['longitude'])
+
+				purchases.objects.update_one({
+												'picture': purchase['picture']
+											},{
+												'$set': {
+												'shared': True
+												}
+											}, upsert=False)
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+
+
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
 
