@@ -23,7 +23,7 @@ user = bot.get_me()
 # GLOBAL VARIABLES
 USER = {}
 ADMIN = {}
-ADMIN_LIST = ('326183269',)
+ADMIN_LIST = ('326183269', '591966644',)
 
 
 
@@ -152,6 +152,11 @@ This is instructions on how to use Shemach Bot and share review and rating of yo
 This bot is extremely easy to use, 
 just answer the questions it asks 
 and you will be done before you know it.
+
+\U000026A0 We manually check for genuinity 
+of the given data before posting to the Shemach Et channel, so please
+try to give a correct info about a product other wise it will not be shared.
+
 /start
 			""".format(call.from_user.first_name))
 	except Exception as e:
@@ -462,7 +467,11 @@ def give_choice_for_purchase_from(call):
 		bot.send_message(call.from_user.id, '\U00002611 store: passed\n\n\U0001F4CD Where is the store?\n\n\U0001F449 Eg: Merkato yerga-hayele 2nd floor.')
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -563,7 +572,11 @@ def give_choice_for_purchase_from(call):
 		bot.send_message(call.from_user.id, '\U00002611 store gps location: Passed\n\n\U0001F449 What was the condition of your purchase?',  reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -608,7 +621,11 @@ def accept_purchase_condition(call):
 		bot.send_message(call.from_user.id, '\U00002611 condition: new\n\n\U0001F449 Is the product original?',  reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -627,7 +644,11 @@ def accept_purchase_condition(call):
 		bot.send_message(call.from_user.id, '\U00002611 condition: used\n\n\U0001F449 Is the product original?',  reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -651,7 +672,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 original: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -672,7 +697,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 original: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -689,7 +718,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -702,7 +735,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -715,7 +752,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'four_rating')
@@ -727,7 +768,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'five_rating')
@@ -739,7 +784,11 @@ def accept_purchase_genuine(call):
 		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -770,17 +819,19 @@ def dont_accept_rating(message):
 				     func=lambda m: True if 'PURCHASE_FROM' in USER[str(m.from_user.id)] and 'NAME_GIVEN' in USER[str(m.from_user.id)] and 'PICTURE_GIVEN' in USER[str(m.from_user.id)] and 'PRICE_GIVEN' in USER[str(m.from_user.id)] and 'STORE_NAME_GIVEN' in USER[str(m.from_user.id)] and 'STORE_LOCATION_GIVEN' in USER[str(m.from_user.id)] and  'STORE_GPS_GIVEN' in USER[str(m.from_user.id)] and 'CONDITION_GIVEN' in USER[str(m.from_user.id)] and 'GENUINE_GIVEN' in USER[str(m.from_user.id)] and 'RATING_GIVEN' in USER[str(m.from_user.id)] and not 'REVIEW_GIVEN' in USER[str(m.from_user.id)] else False
 					)
 def accept_review(message):
-	if len(message.text) < 3900 and not message.text[0] == '/':
-		global USER
-		USER[str(message.from_user.id)]['REVIEW_GIVEN'] = message.text
-		keyboard = types.InlineKeyboardMarkup()
-		keyboard.add(types.InlineKeyboardButton("\U0001F44D yes", callback_data="yes_recommend"))
-		keyboard.add(types.InlineKeyboardButton("\U0001F44E no", callback_data="no_recommend"))
-		bot.reply_to(message, '\U00002611 review: accepted\n\n\U0001F449 Do you recommend this to a friend?', reply_markup=keyboard)
-		# print(USER)
-	else:
-		bot.reply_to(message, '\U000026A0 Review to long \n\n\U0000270D Write your review of your \'{}\''.format(USER[str(message.from_user.id)]['NAME_GIVEN']))
-
+	try:
+		if len(message.text) < 3900 and not message.text[0] == '/':
+			global USER
+			USER[str(message.from_user.id)]['REVIEW_GIVEN'] = message.text
+			keyboard = types.InlineKeyboardMarkup()
+			keyboard.add(types.InlineKeyboardButton("\U0001F44D yes", callback_data="yes_recommend"))
+			keyboard.add(types.InlineKeyboardButton("\U0001F44E no", callback_data="no_recommend"))
+			bot.reply_to(message, '\U00002611 review: accepted\n\n\U0001F449 Do you recommend this to a friend?', reply_markup=keyboard)
+			# print(USER)
+		else:
+			bot.reply_to(message, '\U000026A0 Review to long \n\n\U0000270D Write your review of your \'{}\''.format(USER[str(message.from_user.id)]['NAME_GIVEN']))
+	except Exception as e:
+		print(e)
 
 
 
@@ -799,7 +850,11 @@ def give_choice_for_purchase_from(call):
 		bot.send_message(call.from_user.id, '\U00002611 recommend: yes\n\n\U0001F449 share?', reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -817,7 +872,11 @@ def give_choice_for_purchase_from(call):
 		bot.send_message(call.from_user.id, '\U00002611 recommend: no\n\n\U0001F449 share?', reply_markup=keyboard)
 		# print(USER)
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -933,7 +992,12 @@ def give_choice_for_purchase_from(call):
 		USER[str(call.from_user.id)] = {}
 
 	except Exception as e:
-		print(e)
+		if str(e) == '\''+str(call.from_user.id)+'\'':
+			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
+
 
 # 
 # CANCLE
@@ -945,7 +1009,13 @@ def give_choice_for_purchase_from(call):
 	    bot.answer_callback_query(call.id, text='\U00002714 progress: canceled!')
 	    bot.send_message(call.from_user.id, 'All the data you give is deleted ' + call.from_user.first_name + '.\nto startover /start.')
 	except Exception as e:
-		print(e)
+		if e == "'GENUINE_GIVEN'":
+			bot.answer_callback_query(call.id, text='you have canceled your progress!! startover')
+			bot.send_message(call.from_user.id, 'your progress is lost please /startover.')
+		if e == '\''+str(call.from_user.id)+'\'':
+			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
+		else:
+			print(e)
 
 
 
@@ -1035,6 +1105,7 @@ def share_review_to_public(call):
 		print(e)
 
 
+
 # 
 #Super Category
 @bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'SC_Electronics')
@@ -1057,7 +1128,8 @@ def give_choice_for_purchase_from(call):
 										}, upsert=False)
 					keyboard = types.InlineKeyboardMarkup()
 					keyboard.add(types.InlineKeyboardButton("Smartphone", callback_data="C_Smartphone*" + call.data.split('*')[1]))
-					keyboard.add(types.InlineKeyboardButton("Laptop", callback_data="C_Laptop*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Computer", callback_data="C_Computer*" + call.data.split('*')[1]))
+					keyboard.add(types.InlineKeyboardButton("Camera", callback_data="C_Camera*" + call.data.split('*')[1]))
 					keyboard.add(types.InlineKeyboardButton("Other", callback_data="C_Other*" + call.data.split('*')[1]))
 					bot.send_message('@shemachetadmin', 'Choose Category for \'{}\''.format(purchase['name']), reply_markup=keyboard)
 				else:
@@ -1197,7 +1269,7 @@ def give_choice_for_purchase_from(call):
 
 
 
-@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Laptop')
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Computer')
 def give_choice_for_purchase_from(call):
 	try:
 		purchases = Purchases()
@@ -1205,14 +1277,14 @@ def give_choice_for_purchase_from(call):
 		if not purchase['shared']:
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
-					ADMIN[str(call.from_user.id)]['category'] = 'Laptop'
+					ADMIN[str(call.from_user.id)]['category'] = 'Computer'
 					# print(ADMIN)
-					bot.answer_callback_query(call.id, text='\U00002714 Laptop')
+					bot.answer_callback_query(call.id, text='\U00002714 Computer')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
 										},{
 											'$set': {
-											'category': 'Laptop'
+											'category': 'Computer'
 											}
 										}, upsert=False)
 					keyboard = types.InlineKeyboardMarkup()
@@ -1227,6 +1299,45 @@ def give_choice_for_purchase_from(call):
 	except Exception as e:
 		print(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
+
+
+
+
+
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'C_Camera')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		if not purchase['shared']:
+			if str(call.from_user.id) in ADMIN_LIST:
+				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
+					ADMIN[str(call.from_user.id)]['category'] = 'Camera'
+					# print(ADMIN)
+					bot.answer_callback_query(call.id, text='\U00002714 Camera')
+					purchases.objects.update_one({
+											'picture': purchase['picture']
+										},{
+											'$set': {
+											'category': 'Camera'
+											}
+										}, upsert=False)
+					keyboard = types.InlineKeyboardMarkup()
+					keyboard.add(types.InlineKeyboardButton("done", callback_data="D_Done*" + call.data.split('*')[1]))
+					bot.send_message('@shemachetadmin', 'share review? \'{}\''.format(purchase['name']), reply_markup=keyboard)
+				else:
+					bot.answer_callback_query(call.id, text='Something went wrong!!')
+			else:
+				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
+		else:
+			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
+	except Exception as e:
+		print(e)
+		bot.answer_callback_query(call.id, text='Something went wrong!!')
+
+
 
 
 
@@ -1368,17 +1479,16 @@ def give_choice_for_purchase_from(call):
 																																												)		
 				else:
 					if purchase['purchase_from'] == "facebook":
-						store_name_given = 'facebook-> "' + purchase['store_name'] + "\" group"
+						store_name_given = 'facebook \U000027A1 "' + purchase['store_name'] + "\" group"
 					elif purchase['purchase_from'] == "telegram":
-						store_name_given = 'telegram-> "' + purchase['store_name'] + "\" channel"
+						store_name_given = 'telegram \U000027A1 "' + purchase['store_name'] + "\" channel"
 					text = "\U0001F6CD  {} \n\U0001F4B0  {} ETB \n\U0001F449  condition:  {} \n\U00002757  original\U00002122   {}  \n\U0001F4F2  {} ".format(purchase['name'],
 																																						 price_str(purchase['price']),
 																																							 purchase['condition'],
 																																							 genu,
 																																							 store_name_given,
 																																							)		
-				bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
-				
+			
 				product_pic = open('../img/product/' + purchase['picture'], 'rb')
 				bot.send_photo('@shemachet', product_pic, text)
 				product_pic.close()
@@ -1392,7 +1502,8 @@ def give_choice_for_purchase_from(call):
 					stars += '\U00002606'
 
 				reco = '\U00002705' if purchase['recommend'] else '\U0000274C'     
-				bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + ' #' + purchase['category'])
+				categ = ' #' + purchase['category'] if purchase['category'] != 'Other' else '' 
+				bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n\U0001F464 ' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + categ)
 
 
 				if purchase['gps']:
@@ -1405,6 +1516,9 @@ def give_choice_for_purchase_from(call):
 												'shared': True
 												}
 											}, upsert=False)
+				bot.answer_callback_query(call.id, text='\U00002714 \'{}\' shared'.format(purchase['name']))
+				bot.send_message('@shemachetadmin', '\n--------------------------------------------------------------\n--------------------------------------------------------------\n' + purchase['name'] + ' shared!!\n--------------------------------------------------------------\n--------------------------------------------------------------\n')
+				
 			else:
 				bot.answer_callback_query(call.id, text='{} you are not an admin'.format(call.from_user.first_name))
 
