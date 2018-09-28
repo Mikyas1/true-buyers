@@ -8,6 +8,8 @@ from PIL import Image
 
 import time
 
+import datetime
+
 # 
 # TOKEN
 # TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI' # Arada Buyer Bot
@@ -50,6 +52,17 @@ def price_str(price):
 		# 
 	return birr + '.' + cent
 
+
+# 
+# COLOR PRINTS
+def prRed(prt): print("\033[91m {}\033[00m" .format(prt))
+def prGreen(prt): print("\033[92m {}\033[00m" .format(prt))
+def prYellow(prt): print("\033[93m {}\033[00m" .format(prt))
+def prLightPurple(prt): print("\033[94m {}\033[00m" .format(prt))
+def prPurple(prt): print("\033[95m {}\033[00m" .format(prt))
+def prCyan(prt): print("\033[96m {}\033[00m" .format(prt))
+def prLightGray(prt): print("\033[97m {}\033[00m" .format(prt))
+def prBlack(prt): print("\033[98m {}\033[00m" .format(prt))
 
 
 
@@ -114,7 +127,7 @@ and you will be done before you know it.
 /start
 			""".format(call.from_user.first_name))
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -160,7 +173,7 @@ try to give a correct info about a product other wise it will not be shared.
 /start
 			""".format(call.from_user.first_name))
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 # 
@@ -176,7 +189,7 @@ def send_welcome(message):
 	    markup.add(itembtn1, itembtn2, itembtn3)
 	    bot.send_message(message.from_user.id, "\U0001F449 Choose a menu option: \n\n\U0001F449 You can change back to your keyboard by clicking \U00002328 on your keyboard. and continue your progress.", reply_markup=markup)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -193,9 +206,9 @@ def give_choice_for_purchase_from(call):
 	    global USER 
 	    USER[str(call.from_user.id)] = {}
 	    USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = True
-	    # print(USER)
+	    # prRed(USER)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -212,9 +225,9 @@ def send_welcome(message):
 	    global USER 
 	    USER[str(message.from_user.id)] = {}
 	    USER[str(message.from_user.id)]['NOT_PURCHASER_FROM'] = True
-	    # print(USER)
+	    # prRed(USER)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -231,7 +244,7 @@ def send_welcome_again(message):
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 instruction", callback_data="instruction"))
 	    bot.reply_to(message, "Hello {}. \U0001F600\nShare purchase exprience, get help or read instructions \n\n\U0001F449 From:".format(message.from_user.first_name), reply_markup=keyboard)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -245,7 +258,7 @@ def cancel_message(message):
 	    markup = types.ReplyKeyboardRemove(selective=False)
 	    bot.reply_to(message, 'All the data you give is deleted ' + message.from_user.first_name + '.\nto startover /start.', reply_markup=markup)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -261,7 +274,7 @@ def give_choice_for_purchase_from(call):
     		bot.answer_callback_query(call.id, text='\U00002714 from: store')
     		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
     		USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'store'
-    		# print(USER)
+    		# prRed(USER)
     		markup = types.ReplyKeyboardRemove(selective=False)
     		bot.send_message(call.from_user.id, "\U00002611 from: store.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
     except Exception as e:
@@ -269,7 +282,7 @@ def give_choice_for_purchase_from(call):
         USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
         USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'store'
         # if 'PURCHASE_FROM' in USER[str(call.from_user.id)]:
-	       #  print(USER)
+	       #  prRed(USER)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'facebook')
@@ -280,7 +293,7 @@ def give_choice_for_purchase_from(call):
 			bot.answer_callback_query(call.id, text='\U00002714 from: facebook')
 			USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
 			USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'facebook'
-			# print(USER)
+			# prRed(USER)
 			markup = types.ReplyKeyboardRemove(selective=False)
 			bot.send_message(call.from_user.id, "\U00002611 from: facebook.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
 	except Exception as e:	
@@ -297,7 +310,7 @@ def give_choice_for_purchase_from(call):
     		bot.answer_callback_query(call.id, text='\U00002714 from: telegram')
     		USER[str(call.from_user.id)]['NOT_PURCHASER_FROM'] = False
     		USER[str(call.from_user.id)]['PURCHASE_FROM'] = 'telegram'
-    		# print(USER)
+    		# prRed(USER)
     		markup = types.ReplyKeyboardRemove(selective=False)
     		bot.send_message(call.from_user.id, "\U00002611 from: telegram.\n\n\U0000270D send us the name of your purchase?", reply_markup=markup)
     except Exception as e:
@@ -324,7 +337,7 @@ def send_help_for_slow_users(message):
 	    keyboard.add(types.InlineKeyboardButton("\U0001F4F1 telegram", callback_data="telegram"))
 	    bot.reply_to(message, "\U000026A0 Something went wrong starting over\n\nHello {}. \U0001F600\nWhere did you buy your recent purchase?\n\n\U0001F449 From:".format(message.from_user.first_name), reply_markup=keyboard)
 	except Exception as e: 
-		print(e)
+		prRed(e)
 
 
 
@@ -343,10 +356,10 @@ def accept_name(message):
 			bot.reply_to(message, '\U000026A0 sorry product name to long.\n\n\U0001F449 name should be less than "30" characters.\n\n\U0000270D send us the name of your purchase?')	
 		else:
 			USER[str(message.from_user.id)]['NAME_GIVEN'] = message.text
-			# print(USER)
+			# prRed(USER)
 			bot.reply_to(message, '\U00002611 product name: "' + message.text + '"\n\n\U0001F5BC send the picture of your \'{}\'.'.format(message.text))
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -361,7 +374,7 @@ def dont_accept_photo(message):
 	try:
 		bot.reply_to(message, '\U000026A0 Photo: Not recived.\n\n\U0001F449 only one picture is post.\n\n\U0001F4B5 How much did you pay for it?\n\n\U0001F449 don\'t include \'birr\', \'cent\', etc... only number.')
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -378,9 +391,9 @@ def accept_photo(message):
 		global USER
 
 		fileID = message.photo[-1].file_id
-		# print(fileID)
+		# prRed(fileID)
 		file_info = bot.get_file(fileID)
-		# print(file_info.file_path)
+		# prRed(file_info.file_path)
 		downloaded_file = bot.download_file(file_info.file_path)
 
 		USER[str(message.from_user.id)]['PICTURE_GIVEN'] = USER[str(message.from_user.id)]['NAME_GIVEN'] + '-' + str(message.from_user.id) + '-' + str(message.date) + '.jpg'
@@ -396,10 +409,10 @@ def accept_photo(message):
 		img = img.resize((wsize, basehight), PIL.Image.ANTIALIAS)
 		img.save('../img/product/' + USER[str(message.from_user.id)]['PICTURE_GIVEN'])
 		img.close()
-		# print(USER)
+		# prRed(USER)
 		bot.reply_to(message, '\U00002611 Photo: recived\n\n\U0001F4B5 How much did you pay for it?\n\n\U0001F449 don\'t include \'birr\', \'cent\', etc... only number.')
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.reply_to(message, '\U000026A0 Photo: is not recived\n\n\U0001F5BC Try again send the picture of your purchase.')
 		
 
@@ -419,7 +432,7 @@ def send_photo_please(message):
 		else:
 			pass
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -446,9 +459,9 @@ def accept_price(message):
 				bot.reply_to(message, '\U00002611 price: ' + price_str(USER[str(message.from_user.id)]['PRICE_GIVEN']) + ' ETB\n\n\U0001F4F2 What is the name of the facebook \'group\' that you purchased your \'{}\'?'.format(USER[str(message.from_user.id)]['NAME_GIVEN']))
 			elif USER[str(message.from_user.id)]['PURCHASE_FROM'] == 'telegram':	
 				bot.reply_to(message, '\U00002611 price: ' + price_str(USER[str(message.from_user.id)]['PRICE_GIVEN']) + ' ETB\n\n\U0001F4F2 What is the name of the telegram \'channel\' or \'group\' that you purchased your \'{}\'?'.format(USER[str(message.from_user.id)]['NAME_GIVEN']))
-			# print(USER)
+			# prRed(USER)
 	except Exception as e:
-		print(e)	
+		# prRed(e)	
 		bot.reply_to(message, '\U000026A0 price must be a number. \n\n\U0001F449 don\'t include \'birr\', \'cent\', \'$\', etc...\n\n\U0001F4B5 How much did you pay for your \'' + USER[str(message.from_user.id)]['NAME_GIVEN'] + '\'?')
 
 
@@ -465,13 +478,13 @@ def give_choice_for_purchase_from(call):
 		USER[str(call.from_user.id)]['STORE_NAME_GIVEN'] = '/$&pass'
 		bot.answer_callback_query(call.id, text='\U00002714 store name undefined!')
 		bot.send_message(call.from_user.id, '\U00002611 store: passed\n\n\U0001F4CD Where is the store?\n\n\U0001F449 Eg: Merkato yerga-hayele 2nd floor.')
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -522,10 +535,10 @@ def accept_store_name(message):
 				keyboard.add(types.InlineKeyboardButton("\U0001F44C new", callback_data="new"))
 				keyboard.add(types.InlineKeyboardButton("\U0000270C used", callback_data="used"))
 				bot.reply_to(message, '\U00002611 telegram channel: ' + USER[str(message.from_user.id)]['STORE_NAME_GIVEN'] + '\n\n\U0001F449 What was the condition of your purchase?', reply_markup=keyboard)
-				# print(e)
-		# print(USER)
+				# prRed(e)
+		# prRed(USER)
 	except Exception as e:
-		print(e)	
+		prRed(e)	
 
 
 
@@ -548,9 +561,9 @@ def accept_store_location(message):
 			keyboard = types.InlineKeyboardMarkup()
 			keyboard.add(types.InlineKeyboardButton("\U00002757 i'm not at the store", callback_data="no_location"))
 			bot.reply_to(message, '\U00002611 store location: \'' + USER[str(message.from_user.id)]['STORE_LOCATION_GIVEN'] + '\'\n\n\U0001F5FA Send us the location if your are at the store.\n\n\U0001F449 touch \U0001F4CE on your keyboard and select location, then send my current location.\n\n\U000026A0 Telegram will ask you to turn on location, if location is disabled.', reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -570,13 +583,13 @@ def give_choice_for_purchase_from(call):
 		keyboard.add(types.InlineKeyboardButton("\U0000270C used", callback_data="used"))
 		bot.answer_callback_query(call.id, text='\U00002714 not at the store!')
 		bot.send_message(call.from_user.id, '\U00002611 store gps location: Passed\n\n\U0001F449 What was the condition of your purchase?',  reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -598,7 +611,7 @@ def accept_store_gps(message):
 		keyboard.add(types.InlineKeyboardButton("\U0001F44C new", callback_data="new"))
 		keyboard.add(types.InlineKeyboardButton("\U0000270C used", callback_data="used"))
 		bot.reply_to(message, '\U00002611 store gps location: Accepted\n\n\U0001F449 What was the condition of your purchase?',  reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		bot.reply_to(message, '\U000026A0 store gps location: Not Recived\n\n\U0001F449 Try again. send us location of the store.')
 	
@@ -619,13 +632,13 @@ def accept_purchase_condition(call):
 		keyboard.add(types.InlineKeyboardButton("\U0001F44E no", callback_data="no"))
 		bot.answer_callback_query(call.id, text='\U00002714 condition: new')
 		bot.send_message(call.from_user.id, '\U00002611 condition: new\n\n\U0001F449 Is the product original?',  reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -642,13 +655,13 @@ def accept_purchase_condition(call):
 		keyboard.add(types.InlineKeyboardButton("\U0001F44E no", callback_data="no"))
 		bot.answer_callback_query(call.id, text='\U00002714 condition: used')
 		bot.send_message(call.from_user.id, '\U00002611 condition: used\n\n\U0001F449 Is the product original?',  reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -670,13 +683,13 @@ def accept_purchase_genuine(call):
 		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
 		bot.answer_callback_query(call.id, text='\U00002714 original: yes')
 		bot.send_message(call.from_user.id, '\U00002611 original: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -695,13 +708,13 @@ def accept_purchase_genuine(call):
 		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
 		bot.answer_callback_query(call.id, text='\U00002714 original: no')
 		bot.send_message(call.from_user.id, '\U00002611 original: yes\n\n\U0001F449 rate the product, from 1 to 5.', reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -715,14 +728,14 @@ def accept_purchase_genuine(call):
 		global USER
 		USER[str(call.from_user.id)]['RATING_GIVEN'] = 1
 		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50')
-		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
-		# print(USER)
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\'\n\n\U0001F449use less than 3900 characters.'.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -732,14 +745,14 @@ def accept_purchase_genuine(call):
 		global USER
 		USER[str(call.from_user.id)]['RATING_GIVEN'] = 2
 		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50')
-		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
-		# print(USER)
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\'\n\n\U0001F449use less than 3900 characters.'.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -749,14 +762,14 @@ def accept_purchase_genuine(call):
 		global USER
 		USER[str(call.from_user.id)]['RATING_GIVEN'] = 3
 		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50')
-		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
-		# print(USER)
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\'\n\n\U0001F449use less than 3900 characters.'.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'four_rating')
@@ -765,14 +778,14 @@ def accept_purchase_genuine(call):
 		global USER
 		USER[str(call.from_user.id)]['RATING_GIVEN'] = 4
 		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50\U00002B50')
-		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
-		# print(USER)
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\' \n\n\U0001F449use less than 3900 characters.'.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'five_rating')
@@ -781,14 +794,14 @@ def accept_purchase_genuine(call):
 		global USER
 		USER[str(call.from_user.id)]['RATING_GIVEN'] = 5
 		bot.answer_callback_query(call.id, text='\U00002714 rating: \U00002B50\U00002B50\U00002B50\U00002B50\U00002B50')
-		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\''.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
-		# print(USER)
+		bot.send_message(call.from_user.id, '\U00002611 Rating: ' + str(USER[str(call.from_user.id)]['RATING_GIVEN']) + '\n\n\U0000270D Write your review of your \'{}\'\n\n\U0001F449use less than 3900 characters.'.format(USER[str(call.from_user.id)]['NAME_GIVEN']))
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -807,7 +820,7 @@ def dont_accept_rating(message):
 		keyboard.add(types.InlineKeyboardButton("\U00002B50\U00002B50\U00002B50\U00002B50\U00002B50", callback_data="five_rating"))
 		bot.reply_to(message, '\U000026A0 please choose a rating from the choices bellow.', reply_markup=keyboard)
 	except Exception as e:
-		print(e)
+		prRed(e)
 		
 
 
@@ -827,11 +840,11 @@ def accept_review(message):
 			keyboard.add(types.InlineKeyboardButton("\U0001F44D yes", callback_data="yes_recommend"))
 			keyboard.add(types.InlineKeyboardButton("\U0001F44E no", callback_data="no_recommend"))
 			bot.reply_to(message, '\U00002611 review: accepted\n\n\U0001F449 Do you recommend this to a friend?', reply_markup=keyboard)
-			# print(USER)
+			# prRed(USER)
 		else:
 			bot.reply_to(message, '\U000026A0 Review to long \n\n\U0000270D Write your review of your \'{}\''.format(USER[str(message.from_user.id)]['NAME_GIVEN']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -848,13 +861,13 @@ def give_choice_for_purchase_from(call):
 		keyboard.add(types.InlineKeyboardButton("\U000026D4 cancel", callback_data="cancel"))
 		bot.answer_callback_query(call.id, text='\U00002714 recommend: yes')
 		bot.send_message(call.from_user.id, '\U00002611 recommend: yes\n\n\U0001F449 share?', reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -870,13 +883,13 @@ def give_choice_for_purchase_from(call):
 		keyboard.add(types.InlineKeyboardButton("\U000026D4 cancel", callback_data="cancel"))
 		bot.answer_callback_query(call.id, text='\U00002714 recommend: no')
 		bot.send_message(call.from_user.id, '\U00002611 recommend: no\n\n\U0001F449 share?', reply_markup=keyboard)
-		# print(USER)
+		# prRed(USER)
 	except Exception as e:
 		if str(e) == '\''+str(call.from_user.id)+'\'':
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -915,6 +928,7 @@ def give_choice_for_purchase_from(call):
 						  shared=False,
 						  supercategory='',
 						  category='',
+						  reactors=(),
 						)
 		else:
 			purchase.create(user_id=str(call.from_user.id),
@@ -936,6 +950,7 @@ def give_choice_for_purchase_from(call):
 							  shared=False,
 							  supercategory='',
 							  category='',
+							  reactors=(),
 							)
 		genu= "\U00002705" if genuine else "\U0000274C"
 		
@@ -996,7 +1011,7 @@ def give_choice_for_purchase_from(call):
 			bot.answer_callback_query(call.id, text='your previous progress is lost or already shared please /startover.')
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 # 
@@ -1015,7 +1030,7 @@ def give_choice_for_purchase_from(call):
 		if e == '\''+str(call.from_user.id)+'\'':
 			bot.send_message(call.from_user.id, 'your previous progress is lost or already shared please /startover.')
 		else:
-			print(e)
+			prRed(e)
 
 
 
@@ -1087,7 +1102,7 @@ def share_review_to_public(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				ADMIN[str(call.from_user.id)] = {}
 				ADMIN[str(call.from_user.id)]['product_id'] = call.data.split('*')[1]
-				# print(ADMIN) 
+				# prRed(ADMIN) 
 				keyboard = types.InlineKeyboardMarkup()
 				keyboard.add(types.InlineKeyboardButton("Electronics", callback_data="SC_Electronics*" + call.data.split('*')[1]))
 				keyboard.add(types.InlineKeyboardButton("Clothing", callback_data="SC_Clothing*" + call.data.split('*')[1]))
@@ -1102,7 +1117,7 @@ def share_review_to_public(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 
 
 
@@ -1117,7 +1132,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['supercategory'] = 'Electronics'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Electronics')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1139,7 +1154,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1157,7 +1172,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['supercategory'] = 'Clothing'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Clothing')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1178,7 +1193,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1192,7 +1207,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['supercategory'] = 'Other'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Other')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1211,7 +1226,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1242,7 +1257,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Smartphone'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Smartphone')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1261,7 +1276,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1278,7 +1293,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Computer'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Computer')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1297,7 +1312,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1315,7 +1330,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Camera'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Camera')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1334,7 +1349,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1354,7 +1369,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Men'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Men')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1373,7 +1388,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1390,7 +1405,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Women'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Women')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1409,7 +1424,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1425,7 +1440,7 @@ def give_choice_for_purchase_from(call):
 			if str(call.from_user.id) in ADMIN_LIST:
 				if ADMIN[str(call.from_user.id)]['product_id'] == call.data.split('*')[1]:
 					ADMIN[str(call.from_user.id)]['category'] = 'Other'
-					# print(ADMIN)
+					# prRed(ADMIN)
 					bot.answer_callback_query(call.id, text='\U00002714 Other')
 					purchases.objects.update_one({
 											'picture': purchase['picture']
@@ -1444,7 +1459,7 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
@@ -1503,11 +1518,18 @@ def give_choice_for_purchase_from(call):
 
 				reco = '\U00002705' if purchase['recommend'] else '\U0000274C'     
 				categ = ' #' + purchase['category'] if purchase['category'] != 'Other' else '' 
-				bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n\U0001F464 ' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + categ)
-
+				k = types.InlineKeyboardMarkup()
+				vote_text = "\U0001F44D was this helpfull (0)"
+				k.add(types.InlineKeyboardButton(vote_text, callback_data="vote*"+ purchase['picture']))
 
 				if purchase['gps']:
-					bot.send_location('@shemachet', purchase['latitude'], purchase['longitude'])
+					bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n\U0001F464 ' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + categ)
+					bot.send_location('@shemachet', purchase['latitude'], purchase['longitude'], reply_markup=k)
+				else:
+					bot.send_message('@shemachet', '\U00002B06 REVIEW\n'+ stars + '\n--------------------------------------------------------------\n\U0001F464 ' + purchase['user_name'] + ':\n' + purchase['review'] + '\n--------------------------------------------------------------\nRecommend to a friend  ' + reco + '\n#' + purchase['supercategory'] + categ, reply_markup=k)
+				
+
+
 
 				purchases.objects.update_one({
 												'picture': purchase['picture']
@@ -1526,21 +1548,146 @@ def give_choice_for_purchase_from(call):
 		else:
 			bot.answer_callback_query(call.id, text='\U00002714 \'{}\' is already shared!!!!'.format(purchase['name']))
 	except Exception as e:
-		print(e)
+		prRed(e)
 		bot.answer_callback_query(call.id, text='Something went wrong!!')
 
 
 
+# 
+# vote query handler
+@bot.callback_query_handler(func=lambda call: call.data.split('*')[0] == 'vote')
+def give_choice_for_purchase_from(call):
+	try:
+		purchases = Purchases()
+		purchase = purchases.objects.find_one({'picture': call.data.split('*')[1],})
+		try:
+			voters = len(purchase['reactors'])
+		except Exception as e:
+			voters = 0
+		if not call.from_user.id in purchase['reactors']:
+			purchase['reactors'].append(call.from_user.id)
+			purchases.objects.update_one({
+												'picture': purchase['picture']
+											},{
+												'$set': {
+												'reactors': purchase['reactors']
+												}
+											}, upsert=False)
+			voters = voters + 1
+			k = types.InlineKeyboardMarkup()
+			vote_text = "\U0001F44D was this helpfull ({})".format(voters)
+			k.add(types.InlineKeyboardButton(vote_text, callback_data="vote*"+ purchase['picture']))
+			bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id, reply_markup=k)
+			bot.answer_callback_query(call.id, text='\U0001F44D {} helpfull'.format(str(voters)))
+		else:
+			purchase['reactors'].remove(call.from_user.id)
+			purchases.objects.update_one({
+												'picture': purchase['picture']
+											},{
+												'$set': {
+												'reactors': purchase['reactors']
+												}
+											}, upsert=False)
+			voters = voters - 1
+			k = types.InlineKeyboardMarkup()
+			vote_text = "\U0001F44D was this helpfull ({})".format(voters)
+			k.add(types.InlineKeyboardButton(vote_text, callback_data="vote*"+ purchase['picture']))
+			bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id, reply_markup=k)
+			bot.answer_callback_query(call.id, text='\U0001F44E not helpfull')
+	except Exception as e:
+		prRed(e)
 
-print("{} bot running....".format(user.first_name))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prGreen('======================================================================================================================================================================')
+prYellow('======================================================================================================================================================================')
+prRed('======================================================================================================================================================================')
+
+
+SHEMACH_LOGO = """
+              \033[92m|]]]]]]]]]]]]      ||        ||      ||]]]]]]]]]]      ||]]]]]]]]||[[[[[[[[||           //\\\\              //]]]]]]]]      ||        ||\033[00m
+              \033[92m||                 ||        ||      ||                ||        ||        ||          //  \\\\            //               ||        ||\033[00m
+              \033[92m||                 ||        ||      ||                ||        ||        ||         //    \\\\          //                ||        ||\033[00m
+              \033[92m||                 ||        ||      ||                ||        ||        ||        //      \\\\        ||                 ||        ||\033[00m
+              \033[93m||                 ||        ||      ||                ||        ||        ||       //        \\\\       ||                 ||        ||\033[00m
+              \033[93m||                 ||        ||      ||                ||        ||        ||      //          \\\\      ||                 ||        ||\033[00m
+              \033[93m||]]]]]]]]]]]      ||]]]][[[[||      ||]]]]]]]]]]      ||        ||        ||      ||[[[[[]]]]]||      ||                 ||]]]][[[[||\033[00m
+              \033[93m           ||      ||        ||      ||                ||        ||        ||      ||          ||      ||                 ||        ||\033[00m
+              \033[93m           ||      ||        ||      ||                ||        ||        ||      ||          ||      ||                 ||        ||\033[00m
+              \033[91m           ||      ||        ||      ||                ||        ||        ||      ||          ||      ||                 ||        ||\033[00m
+              \033[91m           ||      ||        ||      ||                ||        ||        ||      ||          ||       \\\\                ||        ||\033[00m
+              \033[91m           ||      ||        ||      ||                ||        ||        ||      ||          ||        \\\\               ||        ||\033[00m
+              \033[91m[[[[[[[[[[[[|      ||        ||      ||]]]]]]]]]]      ||        ||        ||      ||          ||         \\\\]]]]]]]]]     ||        ||\033[00m
+	"""
+
+BOT_LOGO = """  
+                                                            \033[92m||]]]]]]]]\\\\          //]]]\\\\        [[[[[[]]]]]]\033[00m   
+                                                            \033[92m||	       ||        //     \\\\            ||\033[00m
+                                                            \033[92m||	       ||       //       \\\\           ||\033[00m
+                                                            \033[92m||         ||      ||         ||          ||\033[00m
+                                                            \033[93m||	       ||      ||         ||          ||\033[00m
+                                                            \033[93m||	      //       ||         ||          ||\033[00m
+                                                            \033[93m||]]]]]]]]]        ||         ||          ||\033[00m
+                                                            \033[93m||        \\\\       ||         ||          ||\033[00m
+                                                            \033[93m||         ||      ||         ||          ||\033[00m
+                                                            \033[91m||         ||      ||         ||          ||\033[00m
+                                                            \033[91m||         ||       \\\\       //           ||\033[00m
+                                                            \033[91m||         ||        \\\\     //            ||\033[00m
+                                                            \033[91m||]]]]]]]]//          \\\\[[[//             ||\033[00m
+	"""
+print(SHEMACH_LOGO)
+prLightPurple(BOT_LOGO)
+
+prGreen('======================================================================================================================================================================')
+prYellow('======================================================================================================================================================================')
+prRed('======================================================================================================================================================================')
+
+
+prLightPurple('PROCESS STATUS:\n\n')
+prLightPurple('           DATE TIME                PROCESS PROGRESS\n')
+
+
+
+prLightPurple("---> \"{}\" ---> starting \"{}\" bot....\n\n".format(str(datetime.datetime.utcnow()).split('.')[0], user.first_name))
 
 while True:
 	try:
 		if __name__ == '__main__':
+			prLightPurple('           DATE TIME                PROCESS PROGRESS\n')
+			prLightPurple("---> \"{}\" ---> \"{}\" bot is running....\n\n".format(str(datetime.datetime.utcnow()).split('.')[0], user.first_name))
 			bot.polling(none_stop=True)
 	except Exception:
 		time.sleep(15)
+		prLightPurple('           DATE TIME                PROCESS PROGRESS\n')
+		prLightPurple("---> \"{}\" ---> restarting \"{}\" bot....\n\n".format(str(datetime.datetime.utcnow()).split('.')[0], user.first_name))
+		prLightPurple('           DATE TIME                PROCESS PROGRESS\n')
+		prLightPurple("---> \"{}\" ---> \"{}\" bot is rerunning....\n\n".format(str(datetime.datetime.utcnow()).split('.')[0], user.first_name))
 
 
 
-print("{} bot stoped!!!!".format(user.first_name))
+prLightPurple('           DATE TIME                PROCESS PROGRESS\n')
+prRed("---> \"{}\" ---> \"{}\" bot stoped !!!!\n\n".format(str(datetime.datetime.utcnow()).split('.')[0], user.first_name))

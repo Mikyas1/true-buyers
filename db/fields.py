@@ -100,3 +100,21 @@ class IntegerField(Field):
 
     def __str__(self):
         return str(self.value)
+
+class ListField(Field):
+
+    def set(self, value=[]):
+        if not isinstance(value, tuple):
+            self.errors.append(self._name + ' Should be list')
+        super().__set__(value)
+
+    def validate(self):
+        super().validate()
+        if not isinstance(self.value, tuple):
+            # print(type(self.value))
+            self.errors.append(self._name + 'Should be integer')
+            return False
+        return True
+
+    def __str__(self):
+        return str(self.value)

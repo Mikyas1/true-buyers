@@ -22,4 +22,5 @@ class Purchases(Model):
 	shared = fields.BooleanField()
 	supercategory = fields.CharField()
 	category = fields.CharField()
+	reactors = fields.ListField()
 	# date = fields.DateField()
