@@ -27,7 +27,7 @@ from PIL import Image
 # print('{} === {}'.format(type(x.recommend), x.recommend))
 # print(type(False))
 
-TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI'
+TOKEN = '******'
 #username = os.environ['BOT_USERNAME']
 bot = telebot.TeleBot(TOKEN)
 user = bot.get_me()

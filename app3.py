@@ -12,8 +12,8 @@ import datetime
 
 # 
 # TOKEN
-# TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI' # Arada Buyer Bot
-TOKEN = '690016560:AAHu7wzIIOsUKOGxhmM7a_3wZFkfuNQPrVs' # Shemach Bot
+# TOKEN = '***************************' # Arada Buyer Bot
+TOKEN = '*******************' # Shemach Bot
 #username = os.environ['BOT_USERNAME']
 # 
 bot = telebot.TeleBot(TOKEN)

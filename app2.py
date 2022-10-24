@@ -9,7 +9,7 @@ from PIL import Image
 
 # 
 # TOKEN
-TOKEN = '655462722:AAFgk2fEtpB7fkByuLEFTZ-Lx9rV8xxlCPI'
+TOKEN = '************'
 #username = os.environ['BOT_USERNAME']
 # 
 bot = telebot.TeleBot(TOKEN)
