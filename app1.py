@@ -2,7 +2,7 @@
 # from telebot import types
 
 
-# TOKEN = '690016560:AAHu7wzIIOsUKOGxhmM7a_3wZFkfuNQPrVs'
+# TOKEN = '********'
 # #username = os.environ['BOT_USERNAME']
 # bot = telebot.TeleBot(TOKEN)
 # user = bot.get_me()
